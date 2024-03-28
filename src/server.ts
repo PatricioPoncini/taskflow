@@ -23,7 +23,6 @@ app.use(errorHandler);
 
 async function main() {
   try {
-    // TODO: add db connection
     await connectToDB();
     app.listen(PORT);
     console.log("Server on port:", PORT);
