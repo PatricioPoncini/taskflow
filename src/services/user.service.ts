@@ -24,3 +24,13 @@ export const createUserService = async (
     email,
   });
 };
+
+export const getUserByIdService = async (userId: string) => {
+  const user = await UserModel.findById(userId).select("-password");
+
+  if (!user) {
+    throw new CustomError(404, "User not found");
+  }
+
+  return user;
+};
