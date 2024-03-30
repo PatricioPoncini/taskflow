@@ -6,6 +6,7 @@ import { PORT } from "./env";
 import { connectToDB } from "./db";
 import userRoutes from "./routes/user.routes";
 import projectRoutes from "./routes/project.routes";
+import ticketRoutes from "./routes/ticket.routes";
 import { notFoundHandler } from "./middlewares/notFound";
 import { errorHandler } from "./middlewares/error";
 
@@ -17,6 +18,7 @@ app.use(cors());
 
 app.use("/user", userRoutes);
 app.use("/project", projectRoutes);
+app.use("/ticket", ticketRoutes);
 
 app.use(notFoundHandler);
 app.use(errorHandler);
