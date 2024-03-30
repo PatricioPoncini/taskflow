@@ -1,10 +1,11 @@
 import "express-async-errors";
-import express, {Response, type Request, NextFunction} from "express";
+import express, { Response, type Request, NextFunction } from "express";
 import morgan from "morgan";
 import cors from "cors";
 import { PORT } from "./env";
 import { connectToDB } from "./db";
 import userRoutes from "./routes/user.routes";
+import projectRoutes from "./routes/project.routes";
 import { notFoundHandler } from "./middlewares/notFound";
 import { errorHandler } from "./middlewares/error";
 
@@ -15,13 +16,13 @@ app.use(morgan("dev"));
 app.use(cors());
 
 app.use("/user", userRoutes);
+app.use("/project", projectRoutes);
 
 app.use(notFoundHandler);
 app.use(errorHandler);
 
 async function main() {
   try {
-    // TODO: add db connection
     await connectToDB();
     app.listen(PORT);
     console.log("Server on port:", PORT);

@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-import { CreateUserRequest } from "../entities/types/User";
 import {
   createUserService,
   getUserByIdService,
 } from "../services/user.service";
+import { CreateUserRequest } from "../entities/types/User";
 
 export const createUser = async (req: Request, res: Response) => {
   const { username, firstname, lastname, password, email } =
