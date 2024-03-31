@@ -49,6 +49,19 @@ export const getMyTicketsService = async (userId: string) => {
   return tickets;
 };
 
+export const getMyTicketByIdService = async (
+  userId: string,
+  ticketId: string
+) => {
+  const ticket = await TicketModel.findOne({ _id: ticketId, assignee: userId });
+
+  if (!ticket) {
+    throw new CustomError(404, "Ticket not found");
+  }
+
+  return ticket;
+};
+
 export const getMyTicketsByProjectService = async (
   userId: string,
   projectId: string
@@ -63,4 +76,59 @@ export const getMyTicketsByProjectService = async (
   }
 
   return tickets;
+};
+
+export const filterTicketsByStatusService = async (
+  userId: string,
+  projectId: string,
+  status: string
+) => {
+  const tickets = await TicketModel.find({
+    assignee: userId,
+    project: projectId,
+    status,
+  });
+
+  if (tickets.length === 0) {
+    throw new CustomError(404, `Tickets with the status ${status} not found`);
+  }
+
+  return tickets;
+};
+
+export const changeTicketStatusService = async (
+  userId: string,
+  ticketId: string,
+  status: string
+) => {
+  const ticket = await TicketModel.findOneAndUpdate(
+    {
+      assignee: userId,
+      _id: ticketId,
+    },
+    { status },
+    { new: true }
+  );
+
+  if (!ticket) {
+    throw new CustomError(404, "Ticket not found");
+  }
+
+  return ticket;
+};
+
+export const deleteMyTicketService = async (
+  userId: string,
+  ticketId: string
+) => {
+  const ticket = await TicketModel.findOneAndDelete({
+    _id: ticketId,
+    assignee: userId,
+  });
+
+  if (!ticket) {
+    throw new CustomError(404, "Ticket not found or already deleted");
+  }
+
+  return ticket;
 };
