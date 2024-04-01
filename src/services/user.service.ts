@@ -1,6 +1,7 @@
 import { UserModel } from "../entities/User";
 import bcrypt from "bcrypt";
 import { CustomError } from "../middlewares/common/httpException";
+import { ProjectModel } from "../entities/Project";
 
 export const createUserService = async (
   username: string,
@@ -33,4 +34,46 @@ export const getUserByIdService = async (userId: string) => {
   }
 
   return user;
+};
+
+export const addUserToProjectService = async (
+  userId: string,
+  ownerProjectId: string,
+  projectId: string
+) => {
+  const project = await ProjectModel.findOneAndUpdate(
+    {
+      owner: ownerProjectId,
+      _id: projectId,
+    },
+    { $addToSet: { users: userId } },
+    { new: true }
+  );
+
+  if (!project) {
+    throw new CustomError(404, "Project not found");
+  }
+
+  return project;
+};
+
+export const removeUserFromProjectService = async (
+  userId: string,
+  ownerProjectId: string,
+  projectId: string
+) => {
+  const project = await ProjectModel.findOneAndUpdate(
+    {
+      owner: ownerProjectId,
+      _id: projectId,
+    },
+    { $pull: { users: userId } },
+    { new: true }
+  );
+
+  if (!project) {
+    throw new CustomError(404, "Project not found");
+  }
+
+  return project;
 };
