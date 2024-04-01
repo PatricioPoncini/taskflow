@@ -1,7 +1,9 @@
 import { Request, Response } from "express";
 import {
+  addUserToProjectService,
   createUserService,
   getUserByIdService,
+  removeUserFromProjectService,
 } from "../services/user.service";
 import { CreateUserRequest } from "../entities/types/User";
 
@@ -20,4 +22,36 @@ export const getUserById = async (req: Request, res: Response) => {
   const user = await getUserByIdService(userId);
 
   return res.status(200).json(user);
+};
+
+export const addUserToProject = async (req: Request, res: Response) => {
+  const { userId, ownerProjectId, projectId } = req.body as {
+    userId: string;
+    ownerProjectId: string;
+    projectId: string;
+  };
+
+  const project = await addUserToProjectService(
+    userId,
+    ownerProjectId,
+    projectId
+  );
+
+  return res.status(200).json(project);
+};
+
+export const removeUserFromProject = async (req: Request, res: Response) => {
+  const { userId, ownerProjectId, projectId } = req.body as {
+    userId: string;
+    ownerProjectId: string;
+    projectId: string;
+  };
+
+  const project = await removeUserFromProjectService(
+    userId,
+    ownerProjectId,
+    projectId
+  );
+
+  return res.status(200).json(project);
 };
