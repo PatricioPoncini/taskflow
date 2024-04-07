@@ -5,11 +5,11 @@ import {
 } from "../services/project.service";
 
 export const createProject = async (req: Request, res: Response) => {
-  const { title, description, owner } = req.body as {
+  const { title, description } = req.body as {
     title: string;
     description: string;
-    owner: string;
   };
+  const owner = req.userId;
 
   const project = await createProjectService(title, description, owner);
 
@@ -17,7 +17,7 @@ export const createProject = async (req: Request, res: Response) => {
 };
 
 export const getMyProjects = async (req: Request, res: Response) => {
-  const { userId } = req.query as { userId: string };
+  const userId = req.userId;
 
   const projects = await getMyProjectsService(userId);
 

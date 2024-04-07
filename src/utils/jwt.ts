@@ -1,6 +1,7 @@
 import { User } from "../entities/types/User";
 import jwt from "jsonwebtoken";
 import { SECRET_TOKEN_KEY } from "../env";
+import { Request } from "express";
 
 export const generateJWT = (user: User) => {
   return jwt.sign(
