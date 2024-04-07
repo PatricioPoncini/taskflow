@@ -1,5 +1,5 @@
 import { ProjectModel } from "../entities/Project";
-import { CustomError } from "../middlewares/common/httpException";
+import { CustomError } from "../middlewares/common/customError";
 
 export const createProjectService = async (
   title: string,

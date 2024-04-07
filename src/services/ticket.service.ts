@@ -1,7 +1,7 @@
 import { ProjectModel } from "../entities/Project";
 import { TicketModel } from "../entities/Ticket";
 import { UserModel } from "../entities/User";
-import { CustomError } from "../middlewares/common/httpException";
+import { CustomError } from "../middlewares/common/customError";
 
 export const createTicketService = async (
   title: string,

@@ -9,7 +9,7 @@ import {
   getMyTicketsByProjectService,
   getMyTicketsService,
 } from "../services/ticket.service";
-import { CustomError } from "../middlewares/common/httpException";
+import { CustomError } from "../middlewares/common/customError";
 
 export const createTicket = async (req: Request, res: Response) => {
   const { title, description, status, userId, projectId } =

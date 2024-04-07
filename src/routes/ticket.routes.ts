@@ -8,21 +8,22 @@ import {
   getMyTicketsByProject,
   getMyTicketsByStatus,
 } from "../controllers/ticket.controller";
+import { validateToken } from "../middlewares/auth";
 
 const router = Router();
 
-router.post("/create", createTicket);
+router.post("/create", validateToken, createTicket);
 
-router.post("/myTicketsByStatus", getMyTicketsByStatus);
+router.post("/myTicketsByStatus", validateToken, getMyTicketsByStatus);
 
-router.get("/myTicketById", getMyTicketById);
+router.get("/myTicketById", validateToken, getMyTicketById);
 
-router.get("/myTickets", getMyTickets);
+router.get("/myTickets", validateToken, getMyTickets);
 
-router.get("/myTicketsByProject", getMyTicketsByProject);
+router.get("/myTicketsByProject", validateToken, getMyTicketsByProject);
 
-router.put("/changeStatus", changeTicketStatus);
+router.put("/changeStatus", validateToken, changeTicketStatus);
 
-router.delete("/deleteTicket", deleteMyTicket);
+router.delete("/deleteTicket", validateToken, deleteMyTicket);
 
 export default router;
