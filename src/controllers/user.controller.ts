@@ -3,6 +3,7 @@ import {
   addUserToProjectService,
   createUserService,
   getUserByIdService,
+  loginUserService,
   removeUserFromProjectService,
 } from "../services/user.service";
 import { CreateUserRequest } from "../entities/types/User";
@@ -54,4 +55,15 @@ export const removeUserFromProject = async (req: Request, res: Response) => {
   );
 
   return res.status(200).json(project);
+};
+
+export const loginUser = async (req: Request, res: Response) => {
+  const { username, password } = req.body as {
+    username: string;
+    password: string;
+  };
+
+  const token = await loginUserService(username, password);
+
+  return res.status(200).json({ token });
 };

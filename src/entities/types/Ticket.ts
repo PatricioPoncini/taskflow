@@ -20,6 +20,5 @@ export interface CreateTicketReq {
   title: string;
   description: string;
   status: string;
-  userId: string;
   projectId: string;
 }

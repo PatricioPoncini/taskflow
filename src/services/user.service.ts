@@ -1,7 +1,9 @@
 import { UserModel } from "../entities/User";
 import bcrypt from "bcrypt";
-import { CustomError } from "../middlewares/common/httpException";
+import { CustomError } from "../middlewares/common/customError";
 import { ProjectModel } from "../entities/Project";
+import { validatePassword } from "../utils/validatePassword";
+import { generateJWT } from "../utils/jwt";
 
 export const createUserService = async (
   username: string,
@@ -76,4 +78,22 @@ export const removeUserFromProjectService = async (
   }
 
   return project;
+};
+
+export const loginUserService = async (username: string, password: string) => {
+  const user = await UserModel.findOne({ username });
+
+  if (!user) {
+    throw new CustomError(404, "User not found");
+  }
+
+  const isPasswordValid = await validatePassword(password, user.password);
+
+  if (!isPasswordValid) {
+    throw new CustomError(401, "Password does not match");
+  }
+
+  const token = generateJWT(user);
+
+  return token;
 };

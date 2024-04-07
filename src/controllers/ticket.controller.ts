@@ -9,11 +9,11 @@ import {
   getMyTicketsByProjectService,
   getMyTicketsService,
 } from "../services/ticket.service";
-import { CustomError } from "../middlewares/common/httpException";
+import { CustomError } from "../middlewares/common/customError";
 
 export const createTicket = async (req: Request, res: Response) => {
-  const { title, description, status, userId, projectId } =
-    req.body as CreateTicketReq;
+  const { title, description, status, projectId } = req.body as CreateTicketReq;
+  const userId = req.userId;
 
   const ticket = await createTicketService(
     title,
@@ -27,7 +27,7 @@ export const createTicket = async (req: Request, res: Response) => {
 };
 
 export const getMyTickets = async (req: Request, res: Response) => {
-  const { userId } = req.query as { userId: string };
+  const userId = req.userId;
 
   const tickets = await getMyTicketsService(userId);
 
@@ -35,10 +35,10 @@ export const getMyTickets = async (req: Request, res: Response) => {
 };
 
 export const getMyTicketById = async (req: Request, res: Response) => {
-  const { userId, ticketId } = req.query as {
-    userId: string;
+  const { ticketId } = req.query as {
     ticketId: string;
   };
+  const userId = req.userId;
 
   const ticket = await getMyTicketByIdService(userId, ticketId);
 
@@ -46,10 +46,10 @@ export const getMyTicketById = async (req: Request, res: Response) => {
 };
 
 export const getMyTicketsByProject = async (req: Request, res: Response) => {
-  const { userId, projectId } = req.query as {
-    userId: string;
+  const { projectId } = req.query as {
     projectId: string;
   };
+  const userId = req.userId;
 
   const tickets = await getMyTicketsByProjectService(userId, projectId);
 
@@ -57,11 +57,11 @@ export const getMyTicketsByProject = async (req: Request, res: Response) => {
 };
 
 export const getMyTicketsByStatus = async (req: Request, res: Response) => {
-  const { userId, projectId, status } = req.body as {
-    userId: string;
+  const { projectId, status } = req.body as {
     projectId: string;
     status: string;
   };
+  const userId = req.userId;
 
   const tickets = await filterTicketsByStatusService(userId, projectId, status);
 
@@ -69,11 +69,11 @@ export const getMyTicketsByStatus = async (req: Request, res: Response) => {
 };
 
 export const changeTicketStatus = async (req: Request, res: Response) => {
-  const { userId, ticketId, status } = req.body as {
-    userId: string;
+  const { ticketId, status } = req.body as {
     ticketId: string;
     status: string;
   };
+  const userId = req.userId;
 
   if (!(status in TICKET_STATUS)) {
     throw new CustomError(400, "Invalid status");
@@ -85,10 +85,10 @@ export const changeTicketStatus = async (req: Request, res: Response) => {
 };
 
 export const deleteMyTicket = async (req: Request, res: Response) => {
-  const { userId, ticketId } = req.query as {
-    userId: string;
+  const { ticketId } = req.query as {
     ticketId: string;
   };
+  const userId = req.userId;
 
   const ticket = await deleteMyTicketService(userId, ticketId);
 
