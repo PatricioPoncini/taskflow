@@ -10,9 +10,18 @@ import {
   getMyTicketsService,
 } from "../services/ticket.service";
 import { CustomError } from "../middlewares/common/customError";
+import {
+  changeTicketStatusSchema,
+  createTicketSchema,
+  deleteMyTicketSchema,
+  getMyTicketsByProjectSchema,
+  getMyTicketsByStatusSchema,
+  getTicketByIdSchema,
+} from "../middlewares/validators/ticket.validator";
 
 export const createTicket = async (req: Request, res: Response) => {
   const { title, description, status, projectId } = req.body as CreateTicketReq;
+  await createTicketSchema.validateAsync(req.body);
   const userId = req.userId;
 
   const ticket = await createTicketService(
@@ -38,6 +47,7 @@ export const getMyTicketById = async (req: Request, res: Response) => {
   const { ticketId } = req.query as {
     ticketId: string;
   };
+  await getTicketByIdSchema.validateAsync(req.body);
   const userId = req.userId;
 
   const ticket = await getMyTicketByIdService(userId, ticketId);
@@ -49,6 +59,7 @@ export const getMyTicketsByProject = async (req: Request, res: Response) => {
   const { projectId } = req.query as {
     projectId: string;
   };
+  await getMyTicketsByProjectSchema.validateAsync(req.body);
   const userId = req.userId;
 
   const tickets = await getMyTicketsByProjectService(userId, projectId);
@@ -61,6 +72,7 @@ export const getMyTicketsByStatus = async (req: Request, res: Response) => {
     projectId: string;
     status: string;
   };
+  await getMyTicketsByStatusSchema.validateAsync(req.body);
   const userId = req.userId;
 
   const tickets = await filterTicketsByStatusService(userId, projectId, status);
@@ -73,6 +85,7 @@ export const changeTicketStatus = async (req: Request, res: Response) => {
     ticketId: string;
     status: string;
   };
+  await changeTicketStatusSchema.validateAsync(req.body);
   const userId = req.userId;
 
   if (!(status in TICKET_STATUS)) {
@@ -88,6 +101,7 @@ export const deleteMyTicket = async (req: Request, res: Response) => {
   const { ticketId } = req.query as {
     ticketId: string;
   };
+  await deleteMyTicketSchema.validateAsync(req.body);
   const userId = req.userId;
 
   const ticket = await deleteMyTicketService(userId, ticketId);

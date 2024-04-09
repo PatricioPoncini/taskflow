@@ -7,10 +7,16 @@ import {
   removeUserFromProjectService,
 } from "../services/user.service";
 import { CreateUserRequest } from "../entities/types/User";
+import {
+  createUserSchema,
+  handleUserToProjectSchema,
+  loginUserSchema,
+} from "../middlewares/validators/user.validator";
 
 export const createUser = async (req: Request, res: Response) => {
   const { username, firstname, lastname, password, email } =
     req.body as CreateUserRequest;
+  await createUserSchema.validateAsync(req.body);
 
   await createUserService(username, firstname, lastname, password, email);
 
@@ -31,6 +37,7 @@ export const addUserToProject = async (req: Request, res: Response) => {
     ownerProjectId: string;
     projectId: string;
   };
+  await handleUserToProjectSchema.validateAsync(req.body);
 
   const project = await addUserToProjectService(
     userId,
@@ -47,6 +54,7 @@ export const removeUserFromProject = async (req: Request, res: Response) => {
     ownerProjectId: string;
     projectId: string;
   };
+  await handleUserToProjectSchema.validateAsync(req.body);
 
   const project = await removeUserFromProjectService(
     userId,
@@ -62,6 +70,7 @@ export const loginUser = async (req: Request, res: Response) => {
     username: string;
     password: string;
   };
+  await loginUserSchema.validateAsync(req.body);
 
   const token = await loginUserService(username, password);
 
