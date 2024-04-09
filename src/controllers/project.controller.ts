@@ -3,7 +3,7 @@ import {
   createProjectService,
   getMyProjectsService,
 } from "../services/project.service";
-import { createProjectSchema } from "../middlewares/validators/project.validator";
+import { createProjectSchema } from "../validators/project.validator";
 
 export const createProject = async (req: Request, res: Response) => {
   const { title, description } = req.body as {

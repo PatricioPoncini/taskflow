@@ -11,7 +11,7 @@ import {
   createUserSchema,
   handleUserToProjectSchema,
   loginUserSchema,
-} from "../middlewares/validators/user.validator";
+} from "../validators/user.validator";
 
 export const createUser = async (req: Request, res: Response) => {
   const { username, firstname, lastname, password, email } =

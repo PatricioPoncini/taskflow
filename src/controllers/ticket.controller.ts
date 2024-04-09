@@ -17,7 +17,7 @@ import {
   getMyTicketsByProjectSchema,
   getMyTicketsByStatusSchema,
   getTicketByIdSchema,
-} from "../middlewares/validators/ticket.validator";
+} from "../validators/ticket.validator";
 
 export const createTicket = async (req: Request, res: Response) => {
   const { title, description, status, projectId } = req.body as CreateTicketReq;
