@@ -3,12 +3,14 @@ import {
   createProjectService,
   getMyProjectsService,
 } from "../services/project.service";
+import { createProjectSchema } from "../middlewares/validators/project.validator";
 
 export const createProject = async (req: Request, res: Response) => {
   const { title, description } = req.body as {
     title: string;
     description: string;
   };
+  await createProjectSchema.validateAsync(req.body);
   const owner = req.userId;
 
   const project = await createProjectService(title, description, owner);
