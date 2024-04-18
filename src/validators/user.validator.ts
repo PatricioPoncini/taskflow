@@ -1,7 +1,5 @@
 import Joi from "joi";
 
-interface Hola {}
-
 export const createUserSchema = Joi.object<{
   firstname: string;
   lastname: string;
