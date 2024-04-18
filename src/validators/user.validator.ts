@@ -1,13 +1,13 @@
 import Joi from "joi";
 
+interface Hola {}
+
 export const createUserSchema = Joi.object<{
-  username: string;
   firstname: string;
   lastname: string;
   password: string;
   email: string;
 }>({
-  username: Joi.string().min(5).max(30).required(),
   firstname: Joi.string().min(5).max(30).required(),
   lastname: Joi.string().min(5).max(30).required(),
   password: Joi.string().pattern(new RegExp("^[a-zA-Z0-9]{3,30}$")).required(),

@@ -12,11 +12,13 @@ import {
   handleUserToProjectSchema,
   loginUserSchema,
 } from "../validators/user.validator";
+import { generaterRandomUsername } from "../utils/generateUsername";
 
 export const createUser = async (req: Request, res: Response) => {
-  const { username, firstname, lastname, password, email } =
+  const { firstname, lastname, password, email } =
     req.body as CreateUserRequest;
   await createUserSchema.validateAsync(req.body);
+  const username = generaterRandomUsername();
 
   await createUserService(username, firstname, lastname, password, email);
 
