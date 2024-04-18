@@ -1,5 +1,5 @@
 import Joi from "joi";
-import { TICKET_STATUS, TicketStatus } from "../../entities/types/Ticket";
+import { TICKET_STATUS, TicketStatus } from "../entities/types/Ticket";
 
 export const createTicketSchema = Joi.object<{
   title: string;
