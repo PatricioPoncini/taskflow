@@ -15,7 +15,7 @@ export const createUserService = async (
   const existUser = await UserModel.findOne({ username });
 
   if (existUser) {
-    throw new CustomError(400, "User already exist");
+    throw new CustomError(400, "User already exists");
   }
 
   const hash = await bcrypt.hash(password, 10);

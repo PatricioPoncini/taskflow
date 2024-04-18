@@ -1,5 +1,5 @@
 import "express-async-errors";
-import express, { Response, type Request, NextFunction } from "express";
+import express from "express";
 import morgan from "morgan";
 import cors from "cors";
 import { PORT } from "./env";
@@ -9,6 +9,7 @@ import projectRoutes from "./routes/project.routes";
 import ticketRoutes from "./routes/ticket.routes";
 import { notFoundHandler } from "./middlewares/notFound";
 import { errorHandler } from "./middlewares/error";
+import { swaggerDocs } from "./routes/swagger";
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.use(cors());
 app.use("/user", userRoutes);
 app.use("/project", projectRoutes);
 app.use("/ticket", ticketRoutes);
+swaggerDocs(app, Number(PORT));
 
 app.use(notFoundHandler);
 app.use(errorHandler);
@@ -26,7 +28,7 @@ app.use(errorHandler);
 async function main() {
   try {
     await connectToDB();
-    app.listen(PORT);
+    app.listen(Number(PORT));
     console.log("Server on port:", PORT);
   } catch (error) {
     console.log("Error. Connection to database lost");
