@@ -4,6 +4,7 @@ import morgan from "morgan";
 import cors from "cors";
 import { AppDataSource } from "./db";
 import userRoutes from "./routes/user.routes";
+import authRoutes from "./routes/auth.routes";
 
 async function startServer(port: number) {
   const app = express();
@@ -12,6 +13,7 @@ async function startServer(port: number) {
   app.use(cors());
 
   app.use("/user", userRoutes);
+  app.use("/auth", authRoutes);
 
   try {
     await AppDataSource.initialize();
