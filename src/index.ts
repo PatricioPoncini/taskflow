@@ -6,7 +6,7 @@ import { AppDataSource } from "./db";
 import userRoutes from "./routes/user.routes";
 import authRoutes from "./routes/auth.routes";
 
-async function startServer(port: number) {
+(async () => {
   const app = express();
   app.use(morgan("dev"));
   app.use(express.json());
@@ -18,8 +18,8 @@ async function startServer(port: number) {
   try {
     await AppDataSource.initialize();
 
-    const server = app.listen(port, () => {
-      console.log(`Server is running on port ${port}`);
+    const server = app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
     });
 
     server.on("error", (error: NodeJS.ErrnoException) => {
@@ -35,6 +35,4 @@ async function startServer(port: number) {
   } catch (error) {
     console.error(error);
   }
-}
-
-startServer(PORT);
+})();
